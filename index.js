@@ -31,10 +31,16 @@ async function run() {
     await client.db("admin").command({ ping: 1 });
     console.log("Crud2 server. You successfully connected to MongoDB!");
 
+    const coffeeCollection = client.db('crud2').collection('coffee');
+
+
     // post data client side to server side
     app.post('/coffee', async(req, res)=>{
       const newCoffee = req.body;
       console.log(newCoffee);
+
+      const result = await coffeeCollection.insertOne(newCoffee);
+      res.send(result)
     });
   } finally {
     // Ensures that the client will close when you finish/error
