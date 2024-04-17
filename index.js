@@ -35,6 +35,7 @@ async function run() {
     // const coffeeCollection = client.db('crud2').collection('coffee');
     const coffeeCollection = client.db('crud2').collection('coffee');
     // const coffeeCollection = client.db('crud2').collection('coffee');
+    
     app.post('/coffee', async(req, res)=>{
       const newCoffee = req.body;
       const result = await coffeeCollection.insertOne(newCoffee);
@@ -46,13 +47,34 @@ async function run() {
       const result = await cursor.toArray();
       res.send(result);
     });
+    // update coffee
+    app.get('/coffee/:id', async(req, res)=>{
+      const id = req.params.id;
+      const filter = {_id: new ObjectId(id)} 
+      const result = await coffeeCollection.findOne(filter)
+      res.send(result);
+    });
     
+    // app.delete('/coffee/:id', async(req, res)=>{
+    //   const id = req.params.id;
+    //   const query = {_id: new ObjectId(id)};
+    //   const result = await coffeeCollection.deleteOne(query);
+    //   res.send(result);
+    // });
+
     app.delete('/coffee/:id', async(req, res)=>{
       const id = req.params.id;
       const query = {_id: new ObjectId(id)};
       const result = await coffeeCollection.deleteOne(query);
       res.send(result);
-    })
+    });
+
+    // app.delete('/coffee/:id', async(req, res)=>{
+    //   const id = req.params.id;
+    //   const query = {_id: new ObjectId(id)};
+    //   const result = await coffeeCollection.deleteOne(query);
+    //   res.send(result);
+    // });
     // app.post('/coffee', async(req, res)=>{
     //   const newCoffee = req.body;
     //   const result = await coffeeCollection.insertOne(newCoffee);
